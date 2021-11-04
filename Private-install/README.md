@@ -20,11 +20,19 @@ However I struggle with the actual implementation of it (the AWS setup essential
 Here are the various screenshots and a diagram of the setup.
 
 - figure 1 - Overall AWS network diagram
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/AWS%20Overview%20Before.png)
 - figure 2 - VPC details
+![alt text](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/VPC.png)
 - figure 3 - subnets details
+![alt text](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/Subnets.png)
 - figure 4 - route tables
+![Overview](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/Route%20Tables.png)
+![Default Route Table](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/Default%20Route%20Table.png)
+![Private Route Table](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/Private%20Route%20Table.png)
 - figure 5 - internet gateway
+![alt text](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/Internet%20Gateway.png)
 - figure 6 - elastic IPs
+![alt text](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/Elastic%20IP.png)
 - figure 7 - NAT Gateways
+![alt text](https://github.com/SimonDelord/OCP-IPI/blob/main/Private-install/Images/NAT%20Gateway.png)
 
