@@ -1,1 +1,3 @@
 First App for the Ingress - it uses first-app.apps.simon-public.melbourneopenshift.com as the route
+
+So when you browse to http://first-app.apps.simon-public.melbourneopenshift.com it displays the App.
