@@ -1,0 +1,25 @@
+apiVersion: v1
+items:
+- apiVersion: operator.openshift.io/v1
+  kind: IngressController
+  metadata:
+    name: ingress-simon
+    namespace: openshift-ingress-operator
+  spec:
+    domain: apps.simon-public.melbourneopenshift.com
+    endpointPublishingStrategy:
+      type: LoadBalancerService
+      loadBalancer:
+        scope: External
+    nodePlacement:
+      nodeSelector:
+        matchLabels:
+          node-role.kubernetes.io/worker: ""
+    routeSelector:
+      matchLabels:
+        type: sharded
+  status: {}
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
