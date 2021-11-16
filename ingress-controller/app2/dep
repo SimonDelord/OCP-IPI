@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-simon2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-simon2
+  template:
+    metadata:
+      labels:
+        app: hello-simon2
+    spec:
+      containers:
+      - name: hello-simon2
+        image: paulbouwer/hello-kubernetes:1.8
+        ports:
+        - containerPort: 8080
