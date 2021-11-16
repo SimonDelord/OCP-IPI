@@ -1,0 +1,1 @@
+This is the second app using the same IngressController as App1 but is reachable using new-app.apps.simon-public.melbourneopenshift.com
