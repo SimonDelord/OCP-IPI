@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    type: sharded
+  name: hello-simon2
+  namespace: simon2
+  resourceVersion: "64815"
+spec:
+  host: new-app.apps.simon-public.melbourneopenshift.com
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: hello-simon2-internal
+    weight: 100
+  wildcardPolicy: None
