@@ -67,6 +67,7 @@ oc new-app https://github.com/sclorg/django-ex.git
 kubectl -n demo patch service django-ex -p '{"spec":{"type":"NodePort"}}'
 
 You then create an Ingress that will trigger the creation of an ALB in AWS.
-The file I used is called 
+The file I used is called alb-ingress.yaml
+I had to modify some of the parameters in the Top Link with the Ingress. Typically the alb.ingress.kubernetes.io/subnets (e.g all the public Subnet IDs for my OCP cluster), the path (from /* to /) and the relevant host "django-demo.apps.ocpaws.melbourneopenshift.com".
   
   
