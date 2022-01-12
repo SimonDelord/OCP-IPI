@@ -44,6 +44,7 @@ oc new-project aws-load-balancer-controller (in my case)
 
 6th: Apply the CRDs required for supporting this ALB Controller.
 kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+kubectl apply -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml
 
 As mentioned those CRDs are not supported on K1.22 as it deprecated the support for networking.k8s.io/v1beta1, but the current load balancer controller still uses v1beta1. There is an outstanding feature request to support v1 (not sure about the ETA on this one). One more reason when building your own K8 environment to be careful.
   
