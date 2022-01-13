@@ -105,4 +105,12 @@ spec:
                   number: 8080
 ```
 
+you can then CURL to it or browse to it.  
+For curl
+```
+curl -s --header "Host: django-demo.apps.ocpaws.melbourneopenshift.com" k8s-demo-djangoex-90f015b9b8-1638760379.eu-west-2.elb.amazonaws.com
+
+```
+
+For browsing just enter http://django-demo.apps.ocpaws.melbourneopenshift.com and the following screen should appear.
   
