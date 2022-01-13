@@ -21,33 +21,34 @@ For this exercise, as explained in the link above, you need:
   
 I typically use a jumphost with all the software above in one AWS region.  
   
-##1st Step: you need to create an AWS Policy and Service Account.
-
-curl -so iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/${ALB_VERSION}/docs/install/iam_policy.json
-POLICY_ARN=$(aws iam create-policy --policy-name "AWSLoadBalancerControllerIAMPolicy" --policy-document file://iam-policy.json --query Policy.Arn --output text)
+## 1st Step: you need to create an AWS Policy and Service Account.
+```
+curl -so iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/${ALB_VERSION}/docs/install/iam_policy.json  
+POLICY_ARN=$(aws iam create-policy --policy-name "AWSLoadBalancerControllerIAMPolicy" --policy-document file://iam-policy.json --query Policy.Arn --output text)  
 echo $POLICY_ARN
-
-##2nd Step: Create a Service account
-
+```
+## 2nd Step: Create a Service account
+```
 aws iam create-user --user-name aws-lb-controller --query User.Arn --output text
-
-##3rd Step: Attach the Policy to the User
-
+```
+## 3rd Step: Attach the Policy to the User
+```
 aws iam attach-user-policy --user-name aws-lb-controller --policy-arn ${POLICY_ARN}
-
-##4th: Create an Access and Secret Key for the User
-
+```
+## 4th: Create an Access and Secret Key for the User
+```
 aws iam create-access-key --user-name aws-lb-controller
-
-These keys will be used as part of the helm values.yaml file to configure the ServiceAccount installing the controller onto OCP.
+```
+These keys will be used as part of the helm values.yaml file to configure the ServiceAccount installing the controller onto OCP.  
   
-##5th: Create a namespace or project to deploy the ALB-Ingress-Controller
+## 5th: Create a namespace or project to deploy the ALB-Ingress-Controller
+```
 oc new-project aws-load-balancer-controller (in my case)
-
-##6th: Apply the CRDs required for supporting this ALB Controller.
-kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
+```
+## 6th: Apply the CRDs required for supporting this ALB Controller.
+```
 kubectl apply -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml
-
+```
 As mentioned those CRDs are not supported on K1.22 as it deprecated the support for networking.k8s.io/v1beta1, but the current load balancer controller still uses v1beta1. There is an outstanding feature request to support v1 (not sure about the ETA on this one). One more reason when building your own K8 environment to be careful.
   
 ##7th Step: Add the Helm Repo and Install the Controller (you need Helm3 installed).
