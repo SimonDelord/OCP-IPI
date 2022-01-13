@@ -53,27 +53,56 @@ As mentioned those CRDs are not supported on K1.22 as it deprecated the support 
 There is an outstanding feature request to support v1 (not sure about the ETA on this one).  
 One more reason when building your own K8 environment to be careful.
   
-## 7th Step: Add the Helm Repo and Install the Controller (you need Helm3 installed).
-  
-helm repo add eks https://aws.github.io/eks-charts
-helm install -n aws-load-balancer-controller aws-load-balancer-controller eks/aws-load-balancer-controller  -f values.yaml
-  
-This is really what took me most of the time to sort out. For the values.yaml I used the base file at
-  https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml
-and then modified accordingly based on the values I saw from the https://github.com/rh-mobb/documentation/blob/main/docs/aws/waf/alb.md Step 10.
+## 7th Step: Add the Helm Repo and Install the Controller
+For this step you need Helm3 installed.  
+```
+helm repo add eks https://aws.github.io/eks-charts 
+helm install -n aws-load-balancer-controller aws-load-balancer-controller eks/aws-load-balancer-controller -f values.yaml
+```
+
+This is really what took me most of the time to sort out.  
+For the values.yaml I used the base file [here](https://github.com/aws/eks-charts/blob/master/stable/aws-load-balancer-controller/values.yaml).  
+I then modified accordingly based on the values I saw from the [article at the top](https://github.com/rh-mobb/documentation/blob/main/docs/aws/waf/alb.md) for Step 10.  
 
 If everything works fine, you should get 2 PoDs deployed in the namespace you created in Step 5.
 
-You can then deploy an Application, this application will use a specific Ingress that will trigger the creation of the ALB. 
-I have reused the application defined in the Top Link.
+# Test that this works
+
+You can then deploy an Application that uses a specific Ingress that will trigger the creation of the ALB.  
+You will also need to add a DNS entry that points to the ALB created by the application.  
+
+I have reused the application defined in the [article at the top](https://github.com/rh-mobb/documentation/blob/main/docs/aws/waf/alb.md).
   
-App deployment:
-oc new-project demo
+## App deployment
+
+```
+oc new-project demo   
 oc new-app https://github.com/sclorg/django-ex.git
 kubectl -n demo patch service django-ex -p '{"spec":{"type":"NodePort"}}'
+```
 
-You then create an Ingress that will trigger the creation of an ALB in AWS.
-The file I used is called alb-ingress.yaml
-I had to modify some of the parameters in the Top Link with the Ingress. Typically the alb.ingress.kubernetes.io/subnets (e.g all the public Subnet IDs for my OCP cluster), the path (from /* to /) and the relevant host "django-demo.apps.ocpaws.melbourneopenshift.com".
-  
+You then create an Ingress that will trigger the creation of an ALB in AWS.  
+The file I used is called alb-ingress.yaml. 
+I had to modify some of the parameters in the Top Link with the Ingress.  
+Typically the alb.ingress.kubernetes.io/subnets (e.g all the public Subnet IDs for my OCP cluster), the path (from /* to /) and the relevant host "django-demo.apps.ocpaws.melbourneopenshift.com".
+
+You need to make sure that there is a DNS entry matching this host.  
+I have attached here a screenshot of my route53 setup, where the following DNS entry (* .apps.ocpaws.melbourneopenshift.com) points to the ALB that was created by the deployment of the alb-ingress.yaml file.
+
+For the alb-ingress.yaml file, you will see that the host is defined as. 
+```
+spec:
+  rules:
+    - host: "django-demo.apps.ocpaws.melbourneopenshift.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: django-ex
+                port:
+                  number: 8080
+```
+
   
