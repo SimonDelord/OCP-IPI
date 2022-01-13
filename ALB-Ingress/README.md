@@ -89,6 +89,8 @@ Typically the alb.ingress.kubernetes.io/subnets (e.g all the public Subnet IDs f
 You need to make sure that there is a DNS entry matching this host.  
 I have attached here a screenshot of my route53 setup, where the following DNS entry (* .apps.ocpaws.melbourneopenshift.com) points to the ALB that was created by the deployment of the alb-ingress.yaml file.
 
+![DNS-Setup](https://github.com/SimonDelord/OCP-IPI/blob/main/ALB-Ingress/images/Screen%20Shot%202022-01-13%20at%2012.11.15%20pm.png)
+
 For the alb-ingress.yaml file, you will see that the host is defined as. 
 ```
 spec:
@@ -113,4 +115,5 @@ curl -s --header "Host: django-demo.apps.ocpaws.melbourneopenshift.com" k8s-demo
 ```
 
 For browsing just enter http://django-demo.apps.ocpaws.melbourneopenshift.com and the following screen should appear.
-  
+
+![Browser](https://github.com/SimonDelord/OCP-IPI/blob/main/ALB-Ingress/images/Screen%20Shot%202022-01-13%20at%2012.21.51%20pm.png)  
