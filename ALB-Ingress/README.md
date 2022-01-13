@@ -49,9 +49,11 @@ oc new-project aws-load-balancer-controller (in my case)
 ```
 kubectl apply -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml
 ```
-As mentioned those CRDs are not supported on K1.22 as it deprecated the support for networking.k8s.io/v1beta1, but the current load balancer controller still uses v1beta1. There is an outstanding feature request to support v1 (not sure about the ETA on this one). One more reason when building your own K8 environment to be careful.
+As mentioned those CRDs are not supported on K1.22 as it deprecated the support for networking.k8s.io/v1beta1, but the current load balancer controller still uses v1beta1.  
+There is an outstanding feature request to support v1 (not sure about the ETA on this one).  
+One more reason when building your own K8 environment to be careful.
   
-##7th Step: Add the Helm Repo and Install the Controller (you need Helm3 installed).
+## 7th Step: Add the Helm Repo and Install the Controller (you need Helm3 installed).
   
 helm repo add eks https://aws.github.io/eks-charts
 helm install -n aws-load-balancer-controller aws-load-balancer-controller eks/aws-load-balancer-controller  -f values.yaml
