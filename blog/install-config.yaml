@@ -1,0 +1,58 @@
+apiVersion: v1
+baseDomain: <enter your private Domain, I used privatesimon.com>
+credentialsMode: Mint
+controlPlane:
+  hyperthreading: Enabled
+  name: master
+  platform:
+    aws:
+      zones:
+      - eu-west-2a
+      - eu-west-2b
+      - eu-west-2c
+      rootVolume:
+        iops: 4000
+        size: 500
+        type: io1
+      type: m5.xlarge
+  replicas: 3
+compute:
+- hyperthreading: Enabled
+  name: worker
+  platform:
+    aws:
+      rootVolume:
+        iops: 2000
+        size: 500
+        type: io1
+      type: c5.4xlarge
+      zones:
+      - eu-west-2a
+      - eu-west-2b
+      - eu-west-2c
+  replicas: 3
+metadata:
+  name: ipi-private
+networking:
+  clusterNetwork:
+  - cidr: 10.125.0.0/16
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.124.0.0/16
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  aws:
+    region: <AWS REGION - I used eu-west-2>
+    userTags:
+      adminContact: jdoe
+      costCenter: 7536
+    subnets:
+    - subnet-<subnet ID1>
+    - subnet-<subnet ID2>
+    - subnet-<subnet ID3>
+fips: false
+sshKey: ssh-ed25519 AAAA <PUT YOUR PUBLIC KEY HERE>
+publish: Internal
+pullSecret: '<PUT YOUR PULL SECRET HERE>'
